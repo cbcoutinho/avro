@@ -1004,6 +1004,22 @@ class TimestampMicrosSchema(LogicalSchema, PrimitiveSchema):
         return self.props == that.props
 
 #
+# UUID Type
+#
+
+
+class UuidSchema(LogicalSchema, PrimitiveSchema):
+    def __init__(self, other_props=None):
+        LogicalSchema.__init__(self, constants.UUID)
+        PrimitiveSchema.__init__(self, 'string', other_props)
+
+    def to_json(self, names=None):
+        return self.props
+
+    def __eq__(self, that):
+        return self.props == that.props
+
+#
 # Module Methods
 #
 
@@ -1033,6 +1049,7 @@ def make_logical_schema(logical_type, type_, other_props):
         (constants.TIMESTAMP_MILLIS, 'long'): TimestampMillisSchema,
         (constants.TIME_MICROS, 'long'): TimeMicrosSchema,
         (constants.TIME_MILLIS, 'int'): TimeMillisSchema,
+        (constants.UUID, 'string'): UuidSchema,
     }
     try:
         schema_type = logical_types.get((logical_type, type_), None)

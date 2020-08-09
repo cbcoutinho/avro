@@ -24,6 +24,7 @@ import io
 import unittest
 from binascii import hexlify
 from decimal import Decimal
+from uuid import uuid4
 
 import avro.io
 from avro import schema, timezones
@@ -85,6 +86,7 @@ SCHEMAS_TO_VALIDATE = (
         datetime.datetime(2000, 1, 18, 2, 2, 1, 123499, tzinfo=timezones.tst)
     ),
     ('{"type": "string", "logicalType": "uuid"}', u'12345abcd'),
+    ('{"type": "string", "logicalType": "uuid"}', uuid4().hex),
     ('{"type": "string", "logicalType": "unknown-logical-type"}', u'12345abcd'),
     ('{"type": "string", "logicalType": "timestamp-millis"}', u'12345abcd'),
     ("""\

@@ -49,6 +49,7 @@ import struct
 import sys
 from decimal import Decimal, getcontext
 from struct import Struct
+from uuid import UUID
 
 from avro import constants, schema, timezones
 
@@ -124,7 +125,9 @@ def _is_timezone_aware_datetime(dt):
 _valid = {
     'null': lambda s, d: d is None,
     'boolean': lambda s, d: isinstance(d, bool),
-    'string': lambda s, d: isinstance(d, unicode),
+    'string': lambda s, d: (isinstance(d, unicode) or
+                            (isinstance(d, UUID) and
+                             getattr(s, 'logical_type', None) == constants.UUID)),
     'bytes': lambda s, d: ((isinstance(d, bytes)) or
                            (isinstance(d, Decimal) and
                             getattr(s, 'logical_type', None) == constants.DECIMAL)),
